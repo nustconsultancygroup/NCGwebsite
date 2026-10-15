@@ -156,26 +156,29 @@ c:\Users\yaaas\Desktop\NCG Website\NCGwebsite\
 
 ## 5. Comprehensive React Hooks Analysis
 
-The application utilizes standard React hooks and React Router DOM hooks. Below is the full inventory and breakdown of their implementations:
+The application utilizes standard React hooks and React Router DOM hooks. Below is the full updated inventory and breakdown of their implementations:
 
 ### Summary Table
 
 | Hook | File | Location / Function | Purpose / Behavior |
 | :--- | :--- | :--- | :--- |
-| `useState` | [Navbar.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/Navbar.jsx#L19) | `Navbar()` | `open`: Toggles mobile hamburger overlay navigation drawer. |
-| `useState` | [Navbar.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/Navbar.jsx#L20) | `Navbar()` | `scrolled`: Boolean flag if window scrolled past 20px (triggers solid background). |
+| `useState` | [Navbar.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/Navbar.jsx) | `Navbar()` | `mobileOpen`: Toggles mobile hamburger overlay navigation drawer. |
+| `useState` | [Navbar.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/Navbar.jsx) | `Navbar()` | `scrolled`: Boolean flag if window scrolled past 20px (triggers frosted glass effect). |
+| `useState` | [Navbar.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/Navbar.jsx) | `Navbar()` | `activeDropdown`: Stores ID (`'about'` or `'services'`) of currently open desktop dropdown menu. |
+| `useState` | [Navbar.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/Navbar.jsx) | `Navbar()` | `mobileExpanded`: Tracks expanded/collapsed state for mobile accordion groups (`about`, `services`). |
 | `useState` | [UI.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/UI.jsx#L15) | `Reveal()` | `visible`: Boolean flag when component enters viewport to trigger CSS transition. |
 | `useState` | [Join.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/pages/Join.jsx#L14) | `Join()` | `sent`: Toggles between registration form and success confirmation banner. |
 | `useState` | [Join.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/pages/Join.jsx#L15) | `Join()` | `openFaq`: Index of active accordion item in FAQ section (`-1` indicates all closed). |
 | `useState` | [Partners.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/pages/Partners.jsx#L6) | `Partners()` | `sent`: Toggles between partnership inquiry form and confirmation message. |
 | `useState` | [Contact.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/pages/Contact.jsx#L7) | `Contact()` | `sent`: Toggles between contact submission form and feedback banner. |
-| `useEffect` | [Navbar.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/Navbar.jsx#L23) | `Navbar()` | Auto-closes mobile drawer upon route change (`[location]`). |
-| `useEffect` | [Navbar.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/Navbar.jsx#L25-L30) | `Navbar()` | Attaches and detaches window `scroll` listener with cleanup. |
-| `useEffect` | [Navbar.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/Navbar.jsx#L32-L35) | `Navbar()` | Locks body scrolling (`overflow: hidden`) when mobile menu is active; restores on close/unmount. |
+| `useEffect` | [Navbar.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/Navbar.jsx) | `Navbar()` | Auto-closes mobile drawer and resets active dropdowns on route change (`[location]`). |
+| `useEffect` | [Navbar.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/Navbar.jsx) | `Navbar()` | Attaches and detaches window `scroll` listener with cleanup. |
+| `useEffect` | [Navbar.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/Navbar.jsx) | `Navbar()` | Locks body scrolling (`overflow: hidden`) when mobile menu is active; restores on close/unmount. |
 | `useEffect` | [UI.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/UI.jsx#L7-L9) | `ScrollToTop()` | Scrolls window to `(0, 0)` synchronously whenever `pathname` changes (`[pathname]`). |
 | `useEffect` | [UI.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/UI.jsx#L17-L28) | `Reveal()` | Creates and registers an `IntersectionObserver` on the target DOM element; disconnects on unmount. |
+| `useRef` | [Navbar.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/Navbar.jsx) | `Navbar()` | Holds debounce timeout ID for smooth mouse enter/leave dropdown transitions. |
 | `useRef` | [UI.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/UI.jsx#L14) | `Reveal()` | Holds direct DOM reference to the target wrapper node observed by `IntersectionObserver`. |
-| `useLocation` | [Navbar.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/Navbar.jsx#L21) | `Navbar()` | Provides the current location object to trigger closing the mobile navigation drawer. |
+| `useLocation` | [Navbar.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/Navbar.jsx) | `Navbar()` | Provides current route object to trigger menu resets and highlight parent dropdown items. |
 | `useLocation` | [UI.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/UI.jsx#L7) | `ScrollToTop()` | Extracts `{ pathname }` to detect route changes and reset page scroll. |
 
 ---
@@ -247,3 +250,4 @@ The design system is defined in [global.css](file:///c:/Users/yaaas/Desktop/NCG%
 | Date | Author / Agent | Changes Made | Files Affected | Status |
 | :--- | :--- | :--- | :--- | :--- |
 | **2026-10-15** | Antigravity AI | Initial codebase audit & creation of `STATUS.md` report | `STATUS.md` | Initialized |
+| **2026-10-15** | Antigravity AI | **Navbar Refactoring & Overlap Fix:**<br>1. Fixed logo text overlap and 3-line wrapping via `flex-shrink: 0`, `white-space: nowrap`, and adjusted flex vertical spacing.<br>2. Restructured desktop navbar into balanced 3-column layout (Brand, Menu, Actions) with grouped dropdowns (`About ▾`, `Services & Insights ▾`).<br>3. Gave contents proper equal spacing, uniform padding, and active indicator bars.<br>4. Added glassmorphic dropdown cards with card titles + descriptions and smooth chevron rotation.<br>5. Upgraded mobile navigation drawer with expandable accordion groups, contact footer, and body scroll lock. | `src/components/Navbar.jsx`, `src/components/Navbar.css`, `STATUS.md` | Complete & Verified |

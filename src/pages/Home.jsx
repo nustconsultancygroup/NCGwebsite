@@ -13,7 +13,6 @@ export default function Home() {
           <div className="hero__scrim" />
         </div>
         <div className="container hero__inner">
-          <span className="eyebrow eyebrow--on-red hero__eyebrow">NUST · Islamabad</span>
           <h1 className="hero__title">
             Bridging strategy.<br />Driving impact.
           </h1>

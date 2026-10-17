@@ -2,11 +2,11 @@
 
 > **Living Document**: This file serves as the single source of truth for the project's technical architecture, component structure, stack, hooks, data flow, and ongoing changes. It will be updated as modifications and enhancements are made.
 
-**Current Version:** `1.0.0`  
-**Last Updated:** 2026-10-15  
+**Current Version:** `1.0.1`  
+**Last Updated:** 2026-10-17  
 **Dev Server:** Vite running locally (`http://localhost:5173/`)  
 **Repository Branch:** `main`  
-**Codebase State:** Clean baseline, zero code changes made yet.
+**Codebase State:** Active development; homepage hero copy updated.
 
 ---
 
@@ -187,7 +187,7 @@ The application utilizes standard React hooks and React Router DOM hooks. Below 
 
 | Route Path | Page Component | Key Sections / Features | Current Status |
 | :--- | :--- | :--- | :--- |
-| `/` | `Home.jsx` | Full-screen Hero + video/scrim, Who We Are, Stats grid, Services preview, Core values, Why Join NCG, CTA section | Complete |
+| `/` | `Home.jsx` | Full-screen Hero + campus visual/scrim (eyebrow removed), Who We Are, Stats grid, Services preview, Core values, Why Join NCG, CTA section | Complete |
 | `/about` | `About.jsx` | Story with campus media, Vision & Mission split block, Core values cards, Founding purpose, Leadership messages | Complete |
 | `/services` | `Services.jsx` | All 8 core service lines with indexed cards + inquiry CTA section | Complete |
 | `/projects` | `Projects.jsx` | Project summaries, 6 client industry pills, impact metrics | Complete |
@@ -251,3 +251,4 @@ The design system is defined in [global.css](file:///c:/Users/yaaas/Desktop/NCG%
 | :--- | :--- | :--- | :--- | :--- |
 | **2026-10-15** | Antigravity AI | Initial codebase audit & creation of `STATUS.md` report | `STATUS.md` | Initialized |
 | **2026-10-15** | Antigravity AI | **Navbar Refactoring & Overlap Fix:**<br>1. Fixed logo text overlap and 3-line wrapping via `flex-shrink: 0`, `white-space: nowrap`, and adjusted flex vertical spacing.<br>2. Restructured desktop navbar into balanced 3-column layout (Brand, Menu, Actions) with grouped dropdowns (`About ▾`, `Services & Insights ▾`).<br>3. Gave contents proper equal spacing, uniform padding, and active indicator bars.<br>4. Added glassmorphic dropdown cards with card titles + descriptions and smooth chevron rotation.<br>5. Upgraded mobile navigation drawer with expandable accordion groups, contact footer, and body scroll lock. | `src/components/Navbar.jsx`, `src/components/Navbar.css`, `STATUS.md` | Complete & Verified |
+| **2026-10-17** | Antigravity AI | **Homepage Hero Section Text Update:**<br>Removed the `"NUST · Islamabad"` eyebrow element from the top of the hero container in `Home.jsx`. Validated visual hierarchy, responsive padding, and headline alignment on live Vite dev server. | `src/pages/Home.jsx`, `STATUS.md` | Complete & Verified |

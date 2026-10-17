@@ -2,9 +2,41 @@ import { useState } from 'react'
 import { PageHero, Reveal } from '../components/UI'
 import './pages.css'
 
+const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || '2527e3e2-e673-4111-8bd2-d241cc1c2be0'
+
 export default function Partners() {
   const [sent, setSent] = useState(false)
-  const submit = (e) => { e.preventDefault(); setSent(true) }
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+
+  const submit = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    setError(null)
+
+    const formData = new FormData(e.target)
+    formData.append('access_key', WEB3FORMS_KEY)
+    formData.append('from_name', 'NCG Website — Partnership Inquiry')
+    const orgName = formData.get('organization') || 'Corporate Partner'
+    formData.append('subject', `New Partnership Inquiry: ${orgName}`)
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData,
+      })
+      const result = await response.json()
+      if (result.success) {
+        setSent(true)
+      } else {
+        setError(result.message || 'Unable to submit your partnership inquiry. Please try again.')
+      }
+    } catch (err) {
+      setError('A network error occurred. Please check your connection and try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <>
@@ -50,24 +82,26 @@ export default function Partners() {
             </div>
           ) : (
             <form className="form" onSubmit={submit}>
+              <input type="checkbox" name="botcheck" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
+              {error && <div className="form__error">{error}</div>}
               <div className="form__row">
                 <div className="field">
                   <label htmlFor="p-org">Organization</label>
-                  <input id="p-org" required placeholder="Company / organization name" />
+                  <input id="p-org" name="organization" required placeholder="Company / organization name" />
                 </div>
                 <div className="field">
                   <label htmlFor="p-name">Contact person</label>
-                  <input id="p-name" required placeholder="Your name" />
+                  <input id="p-name" name="name" required placeholder="Your name" />
                 </div>
               </div>
               <div className="form__row">
                 <div className="field">
                   <label htmlFor="p-email">Email</label>
-                  <input id="p-email" type="email" required placeholder="you@company.com" />
+                  <input id="p-email" name="email" type="email" required placeholder="you@company.com" />
                 </div>
                 <div className="field">
                   <label htmlFor="p-type">Interested in</label>
-                  <select id="p-type" defaultValue="">
+                  <select id="p-type" name="partnership_type" defaultValue="">
                     <option value="" disabled>Select an option</option>
                     <option>Consulting Project</option>
                     <option>Talent / Recruitment</option>
@@ -78,10 +112,10 @@ export default function Partners() {
               </div>
               <div className="field">
                 <label htmlFor="p-msg">Message</label>
-                <textarea id="p-msg" placeholder="Tell us more about what you have in mind..." />
+                <textarea id="p-msg" name="message" placeholder="Tell us more about what you have in mind..." />
               </div>
-              <button type="submit" className="btn btn--cream" style={{ justifySelf: 'start' }}>
-                Submit inquiry <span className="arrow">→</span>
+              <button type="submit" className="btn btn--cream" style={{ justifySelf: 'start' }} disabled={loading}>
+                {loading ? 'Submitting inquiry...' : <>Submit inquiry <span className="arrow">→</span></>}
               </button>
             </form>
           )}

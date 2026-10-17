@@ -2,11 +2,11 @@
 
 > **Living Document**: This file serves as the single source of truth for the project's technical architecture, component structure, stack, hooks, data flow, and ongoing changes. It will be updated as modifications and enhancements are made.
 
-**Current Version:** `1.0.1`  
+**Current Version:** `1.1.0`  
 **Last Updated:** 2026-10-17  
 **Dev Server:** Vite running locally (`http://localhost:5173/`)  
 **Repository Branch:** `main`  
-**Codebase State:** Active development; homepage hero copy updated.
+**Codebase State:** Production-ready form email delivery integrated via Web3Forms API across all forms.
 
 ---
 
@@ -167,10 +167,10 @@ The application utilizes standard React hooks and React Router DOM hooks. Below 
 | `useState` | [Navbar.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/Navbar.jsx) | `Navbar()` | `activeDropdown`: Stores ID (`'about'` or `'services'`) of currently open desktop dropdown menu. |
 | `useState` | [Navbar.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/Navbar.jsx) | `Navbar()` | `mobileExpanded`: Tracks expanded/collapsed state for mobile accordion groups (`about`, `services`). |
 | `useState` | [UI.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/UI.jsx#L15) | `Reveal()` | `visible`: Boolean flag when component enters viewport to trigger CSS transition. |
-| `useState` | [Join.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/pages/Join.jsx#L14) | `Join()` | `sent`: Toggles between registration form and success confirmation banner. |
+| `useState` | [Join.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/pages/Join.jsx#L14) | `Join()` | `sent`, `loading`, `error`: Tracks submission cycle, pending HTTP request, and failure feedback. |
 | `useState` | [Join.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/pages/Join.jsx#L15) | `Join()` | `openFaq`: Index of active accordion item in FAQ section (`-1` indicates all closed). |
-| `useState` | [Partners.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/pages/Partners.jsx#L6) | `Partners()` | `sent`: Toggles between partnership inquiry form and confirmation message. |
-| `useState` | [Contact.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/pages/Contact.jsx#L7) | `Contact()` | `sent`: Toggles between contact submission form and feedback banner. |
+| `useState` | [Partners.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/pages/Partners.jsx#L6) | `Partners()` | `sent`, `loading`, `error`: Tracks partnership inquiry state, request in-flight status, and error alerts. |
+| `useState` | [Contact.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/pages/Contact.jsx#L7) | `Contact()` | `sent`, `loading`, `error`: Controls contact form submission, async button loading state, and error banner. |
 | `useEffect` | [Navbar.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/Navbar.jsx) | `Navbar()` | Auto-closes mobile drawer and resets active dropdowns on route change (`[location]`). |
 | `useEffect` | [Navbar.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/Navbar.jsx) | `Navbar()` | Attaches and detaches window `scroll` listener with cleanup. |
 | `useEffect` | [Navbar.jsx](file:///c:/Users/yaaas/Desktop/NCG%20Website/NCGwebsite/src/components/Navbar.jsx) | `Navbar()` | Locks body scrolling (`overflow: hidden`) when mobile menu is active; restores on close/unmount. |
@@ -193,11 +193,11 @@ The application utilizes standard React hooks and React Router DOM hooks. Below 
 | `/projects` | `Projects.jsx` | Project summaries, 6 client industry pills, impact metrics | Complete |
 | `/research` | `Research.jsx` | 6 research publication types (insights, opinion, market analysis, white papers, etc.) | Complete |
 | `/events` | `Events.jsx` | 4 event pillars (Workshops, Competitions, Networking, Speakers) + 6-item photo gallery | Complete (Gallery has placeholders) |
-| `/join` | `Join.jsx` | Member benefits, 10 department tags, 4-step recruitment process, application form, 8-item FAQ accordion | Complete (Form frontend-only) |
+| `/join` | `Join.jsx` | Member benefits, 10 department tags, 4-step recruitment process, application form, 8-item FAQ accordion | Complete (Web3Forms connected & verified) |
 | `/leadership` | `Leadership.jsx` | Executive team and department head directory | Placeholder state ("Profiles coming soon") |
 | `/alumni` | `Alumni.jsx` | Alumni network and mentorship directory | Placeholder state ("Alumni network coming soon") |
-| `/partners` | `Partners.jsx` | Corporate value proposition, partner inquiry form with category selector | Complete (Form frontend-only) |
-| `/contact` | `Contact.jsx` | Email, office, Instagram, LinkedIn links + full contact form | Complete (Form frontend-only) |
+| `/partners` | `Partners.jsx` | Corporate value proposition, partner inquiry form with category selector | Complete (Web3Forms connected & verified) |
+| `/contact` | `Contact.jsx` | Email, office, Instagram, LinkedIn links + full contact form | Complete (Web3Forms connected & verified) |
 | `*` | `NotFound.jsx` | Custom 404 message with button to return to `/` | Complete |
 
 ---
@@ -231,9 +231,9 @@ The design system is defined in [global.css](file:///c:/Users/yaaas/Desktop/NCG%
 
 ## 8. Current Observations, Known Gaps & Future Enhancements
 
-1. **Forms Backend Integration**:
-   - The forms on `/join`, `/partners`, and `/contact` currently update local React state (`setSent(true)`) upon submission without transmitting data to an external service or API.
-   - Recommended next step: Connect to Formspree, Resend, Getform, or a custom backend API.
+1. **Forms Backend Integration (RESOLVED)**:
+   - All forms on `/contact`, `/join`, and `/partners` are fully wired to **Web3Forms** via asynchronous `fetch()` calls with honeypot spam protection (`botcheck`), disabled/loading indicator states, custom email subject lines, and inline error alerting.
+   - Configured through `.env` (`VITE_WEB3FORMS_ACCESS_KEY`) with fallback support. Form submissions deliver directly to the configured inbox. Verified via browser automation.
 2. **Content Placeholders**:
    - `/leadership` is awaiting executive board and director names, titles, and photos.
    - `/alumni` is awaiting alumni profiles and placement records.
@@ -252,3 +252,4 @@ The design system is defined in [global.css](file:///c:/Users/yaaas/Desktop/NCG%
 | **2026-10-15** | Antigravity AI | Initial codebase audit & creation of `STATUS.md` report | `STATUS.md` | Initialized |
 | **2026-10-15** | Antigravity AI | **Navbar Refactoring & Overlap Fix:**<br>1. Fixed logo text overlap and 3-line wrapping via `flex-shrink: 0`, `white-space: nowrap`, and adjusted flex vertical spacing.<br>2. Restructured desktop navbar into balanced 3-column layout (Brand, Menu, Actions) with grouped dropdowns (`About ▾`, `Services & Insights ▾`).<br>3. Gave contents proper equal spacing, uniform padding, and active indicator bars.<br>4. Added glassmorphic dropdown cards with card titles + descriptions and smooth chevron rotation.<br>5. Upgraded mobile navigation drawer with expandable accordion groups, contact footer, and body scroll lock. | `src/components/Navbar.jsx`, `src/components/Navbar.css`, `STATUS.md` | Complete & Verified |
 | **2026-10-17** | Antigravity AI | **Homepage Hero Section Text Update:**<br>Removed the `"NUST · Islamabad"` eyebrow element from the top of the hero container in `Home.jsx`. Validated visual hierarchy, responsive padding, and headline alignment on live Vite dev server. | `src/pages/Home.jsx`, `STATUS.md` | Complete & Verified |
+| **2026-10-17** | Antigravity AI | **Web3Forms Email Delivery Integration:**<br>1. Connected all forms (`/contact`, `/join`, `/partners`) to the Web3Forms API using the client access key.<br>2. Configured `.env` (`VITE_WEB3FORMS_ACCESS_KEY`), added `.env.example`, and added `.env` to `.gitignore`.<br>3. Added async submission handlers with custom subject lines and sender identification (`from_name`).<br>4. Added anti-spam honeypot fields (`botcheck`) to prevent bot spam.<br>5. Added loading states (`disabled={loading}`, dynamic button labels) and styled error banners (`.form__error`).<br>6. Verified all three form submissions end-to-end in the live browser with real API responses. | `.env`, `.env.example`, `.gitignore`, `src/pages/pages.css`, `src/pages/Contact.jsx`, `src/pages/Join.jsx`, `src/pages/Partners.jsx`, `STATUS.md` | Complete & Verified |

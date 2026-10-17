@@ -112,6 +112,17 @@
   background: rgba(192,20,43,0.08); border: 1px solid rgba(192,20,43,0.2);
   border-radius: 12px; padding: 18px 22px; color: var(--red-deep); font-weight: 500;
 }
+.form__error {
+  background: rgba(192,20,43,0.12); border: 1px solid rgba(192,20,43,0.3);
+  border-radius: 12px; padding: 14px 18px; color: var(--red-deep); font-size: 0.95rem; font-weight: 500;
+}
+.section--red .form__error {
+  background: rgba(251,239,220,0.95); border: 1px solid rgba(90,8,20,0.2); color: var(--red-darker);
+}
+.btn:disabled {
+  opacity: 0.65; cursor: not-allowed; pointer-events: none;
+}
+
 
 /* On-red form variant */
 .section--red .field label { color: var(--cream); }

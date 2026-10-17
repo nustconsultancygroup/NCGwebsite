@@ -10,11 +10,42 @@ const steps = [
   { t: 'Selection', d: 'Final selection based on skills, potential, and value fit.' },
 ]
 
+const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || '2527e3e2-e673-4111-8bd2-d241cc1c2be0'
+
 export default function Join() {
   const [sent, setSent] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
   const [openFaq, setOpenFaq] = useState(0)
 
-  const submit = (e) => { e.preventDefault(); setSent(true) }
+  const submit = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    setError(null)
+
+    const formData = new FormData(e.target)
+    formData.append('access_key', WEB3FORMS_KEY)
+    formData.append('from_name', 'NCG Website — Recruitment Application')
+    const applicantName = formData.get('name') || 'Applicant'
+    formData.append('subject', `New NCG Member Application: ${applicantName}`)
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData,
+      })
+      const result = await response.json()
+      if (result.success) {
+        setSent(true)
+      } else {
+        setError(result.message || 'Unable to submit your application. Please try again.')
+      }
+    } catch (err) {
+      setError('A network error occurred. Please check your connection and try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <>
@@ -92,6 +123,8 @@ export default function Join() {
             </div>
           ) : (
             <form className="form" onSubmit={submit}>
+              <input type="checkbox" name="botcheck" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
+              {error && <div className="form__error">{error}</div>}
               <div className="form__row">
                 <div className="field">
                   <label htmlFor="j-name">Full name</label>
@@ -120,8 +153,8 @@ export default function Join() {
                 <textarea id="j-why" name="why" placeholder="Tell us a little about yourself..." />
               </div>
               <p className="form__note">Eligibility: {joinInfo.eligibility}</p>
-              <button type="submit" className="btn btn--primary" style={{ justifySelf: 'start' }}>
-                Submit application <span className="arrow">→</span>
+              <button type="submit" className="btn btn--primary" style={{ justifySelf: 'start' }} disabled={loading}>
+                {loading ? 'Submitting application...' : <>Submit application <span className="arrow">→</span></>}
               </button>
             </form>
           )}
